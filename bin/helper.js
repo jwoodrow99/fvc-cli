@@ -1,4 +1,5 @@
 const fs = require("fs-extra");
+const path = require('path');
 const inquirer = require('inquirer');
 const kleur = require('kleur');
 const boxen = require('boxen');
@@ -14,17 +15,17 @@ function logFileTemplate(){
 }
 
 function currentDir(){
-    return process.cwd();
+    return path.normalize(process.cwd());
 }
 
 function currentFolder(){
-    let currentDir = process.cwd();
-    let folderPathArr = currentDir.split('/');
+    let currentDir = path.normalize(process.cwd());
+    let folderPathArr = currentDir.split(path.normalize('/'));
     return folderPathArr[folderPathArr.length - 1];
 }
 
 function archiveDir(){
-    return `${process.cwd()}/.fvc`
+    return path.normalize(`${process.cwd()}/.fvc`);
 }
 
 function currentDate(){
@@ -37,24 +38,24 @@ function dateToReadable(date){
 }
 
 function readLog(){
-    let logFileRaw = fs.readFileSync(`${currentDir()}/.fvc/log.json`);
+    let logFileRaw = fs.readFileSync(path.normalize(`${currentDir()}/.fvc/log.json`));
     return JSON.parse(logFileRaw);
 }
 
 function writeLog(logObj){
-    fs.writeFileSync(`${currentDir()}/.fvc/log.json`, JSON.stringify(logObj));
+    fs.writeFileSync(path.normalize(`${currentDir()}/.fvc/log.json`), JSON.stringify(logObj));
 }
 
 function getAllFiles(dirPath = currentDir(), arrayOfFiles) {
 
-    files = fs.readdirSync(dirPath);
+    files = fs.readdirSync(path.normalize(dirPath));
     arrayOfFiles = arrayOfFiles || [];
 
     files.forEach((file) => {
-        if (fs.statSync(`${dirPath}/${file}`).isDirectory()) {
-            arrayOfFiles = getAllFiles(`${dirPath}/${file}`, arrayOfFiles);
+        if (fs.statSync(path.normalize(`${dirPath}/${file}`)).isDirectory()) {
+            arrayOfFiles = getAllFiles(path.normalize(`${dirPath}/${file}`), arrayOfFiles);
         } else {
-            arrayOfFiles.push(`${dirPath}/${file}`);
+            arrayOfFiles.push(path.normalize(`${dirPath}/${file}`));
         }
     });
 
@@ -63,17 +64,17 @@ function getAllFiles(dirPath = currentDir(), arrayOfFiles) {
 
 function getAllNonIgnoredFiles(dirPath = currentDir(), arrayOfFiles) {
 
-    let ignoreFiles = getIgnoreFiles(dirPath);
+    let ignoreFiles = getIgnoreFiles(path.normalize(dirPath));
 
-    let files = fs.readdirSync(dirPath);
+    let files = fs.readdirSync(path.normalize(dirPath));
     arrayOfFiles = arrayOfFiles || [];
 
     files.forEach((file) => {
-        if(!ignoreFiles.includes(`${dirPath}/${file}`)){
-            if (fs.statSync(`${dirPath}/${file}`).isDirectory()) {
-                arrayOfFiles = getAllFiles(`${dirPath}/${file}`, arrayOfFiles);
+        if(!ignoreFiles.includes(path.normalize(`${dirPath}/${file}`))){
+            if (fs.statSync(path.normalize(`${dirPath}/${file}`)).isDirectory()) {
+                arrayOfFiles = getAllFiles(path.normalize(`${dirPath}/${file}`), arrayOfFiles);
             } else {
-                arrayOfFiles.push(`${dirPath}/${file}`);
+                arrayOfFiles.push(path.normalize(`${dirPath}/${file}`));
             }
         }
     });
@@ -82,22 +83,22 @@ function getAllNonIgnoredFiles(dirPath = currentDir(), arrayOfFiles) {
 }
 
 function getIgnoreFiles(path = currentDir()){
-    if(fs.existsSync(`${path}/.fvcignore`)){
-        let ignore = fs.readFileSync(`${path}/.fvcignore` , 'utf8');
+    if(fs.existsSync(path.normalize(`${path}/.fvcignore`))){
+        let ignore = fs.readFileSync(path.normalize(`${path}/.fvcignore`), 'utf8');
         let ignoreListRaw = ignore.split('\n');
 
         let ignoreList = [];
 
         ignoreListRaw.forEach((i) => {
-            ignoreList.push(`${path}/${i}`);
+            ignoreList.push(path.normalize(`${path}/${i}`));
         });
 
-        ignoreList.push(`${path}/.fvc`);
+        ignoreList.push(path.normalize(`${path}/.fvc`));
 
         return ignoreList;
     } else {
         let ignoreList = [];
-        ignoreList.push(`${path}/.fvc`);
+        ignoreList.push(path.normalize(`${path}/.fvc`));
         return ignoreList;
     }
 }

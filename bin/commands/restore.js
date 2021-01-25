@@ -1,4 +1,5 @@
 const fs = require("fs-extra");
+const path = require('path');
 const inquirer = require('inquirer');
 const kleur = require('kleur');
 const boxen = require('boxen');
@@ -32,15 +33,15 @@ function main(archive_id, args){
                 let workingContents = fs.readdirSync(helper.currentDir());
                 workingContents.forEach(i => {
                     if (i != '.fvc'){
-                        fs.removeSync(`${helper.currentDir()}/${i}`);
+                        fs.removeSync(path.normalize(`${helper.currentDir()}/${i}`));
                     }
                 });
             }
 
             // Copy files from archive to working dir
-            let archiveContents = fs.readdirSync(`${helper.archiveDir()}/${archive_id}`);
+            let archiveContents = fs.readdirSync(path.normalize(`${helper.archiveDir()}/${archive_id}`));
             archiveContents.forEach(i => {
-                fs.copySync(`${helper.archiveDir()}/${archive_id}/${i}`, `${helper.currentDir()}/${i}`);
+                fs.copySync(path.normalize(`${helper.archiveDir()}/${archive_id}/${i}`, `${helper.currentDir()}/${i}`));
             });
 
             console.log(kleur.bold().green(`Working directory restored to previous archive`));

@@ -1,4 +1,5 @@
 const fs = require("fs-extra");
+const path = require('path');
 const inquirer = require('inquirer');
 const kleur = require('kleur');
 const boxen = require('boxen');

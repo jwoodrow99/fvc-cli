@@ -1,4 +1,5 @@
 const fs = require("fs-extra");
+const path = require('path');
 const inquirer = require('inquirer');
 const kleur = require('kleur');
 const boxen = require('boxen');
@@ -14,12 +15,12 @@ function main(message){
     let removingFilesRaw = helper.getAllNonIgnoredFiles();
     let removingFiles = [];
     removingFilesRaw.forEach((i, index, arr) => {
-       removingFiles.push(i.replace(`${helper.currentDir()}/`, ''));
+       removingFiles.push(i.replace(path.normalize(`${helper.currentDir()}/`), ''));
     });
     
     // Copy files to archive
     removingFiles.forEach(i => {
-        fs.copySync(`${helper.currentDir()}/${i}`, `${helper.archiveDir()}/${createDate}/${i}`);
+        fs.copySync(path.normalize(`${helper.currentDir()}/${i}`, `${helper.archiveDir()}/${createDate}/${i}`));
     });
 
     // Add log file entry
