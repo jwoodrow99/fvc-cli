@@ -7,6 +7,7 @@ const destroy = require('./commands/destroy.js');
 const list = require('./commands/list.js');
 const info = require('./commands/info.js');
 const restore = require('./commands/restore.js');
+const server = require('./server/server.js');
 
 const program = require('commander');
 
@@ -51,6 +52,16 @@ program
     .option('-f, --full', 'Completely mirrors working directory to archive.')
     .action((archive_id, args) => {
         restore.main(archive_id, args);
+    })
+
+const express = require('express');
+const app = express();
+
+program
+    .command(`gui [port]`)
+    .description(`Create GUI server`)
+    .action((port) => {
+        server.main(port);
     })
 
 program.parse(process.argv);
