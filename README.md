@@ -40,7 +40,7 @@ File Version Control (FVC) is a CLI tool designed to give automated version cont
     npm link
     ```
 
-4. Run application (Known issues on windows "command not found" [Solution](https://stackoverflow.com/questions/27864040/fixing-npm-path-in-windows-8-and-10))
+4. Run application (Known issues on windows "command not found" go to bottom for solution.)
 
     ```bash
     fvc
@@ -82,5 +82,17 @@ File Version Control (FVC) is a CLI tool designed to give automated version cont
 * destroy
   * Example: ```fvc destroy [archive_id]```
   * Description: Destroy FVC archive, or if archive_id is passed, destroy a single archive.
+
+## Windows Command not found Issue ([More Info](https://stackoverflow.com/questions/27864040/fixing-npm-path-in-windows-8-and-10))
+
+This is a common issue with Node and NPM (not FVC). We need to update the path variable to include the Node and NPM binary files so they are globally accessable.
+
+1. Use the global Search Charm to search "Environment Variables"
+
+2. Click "Edit system environment variables"
+
+3. Click "New"
+
+4. Add NPM path ```C:\Users\{yourName}\AppData\Roaming\npm```
 
 ## Created by Jack Woodrow for Jasmin Dyer ❤
