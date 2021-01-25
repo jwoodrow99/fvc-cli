@@ -1,0 +1,6 @@
+node_modules/
+
+# Ignore IDE and system specific files
+**/.DS_Store
+**/.idea
+**/.vscode

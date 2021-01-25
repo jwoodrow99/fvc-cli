@@ -1,0 +1,26 @@
+{
+  "name": "fvc",
+  "bin": "./bin/index.js",
+  "version": "1.0.0",
+  "description": "File Version Control",
+  "main": "bin/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jwoodrow99/fvc.git"
+  },
+  "author": "Jack Woodrow",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jwoodrow99/fvc/issues"
+  },
+  "homepage": "https://github.com/jwoodrow99/fvc#readme",
+  "dependencies": {
+    "commander": "^7.0.0",
+    "fs-extra": "^9.1.0",
+    "inquirer": "^7.3.3",
+    "kleur": "^4.1.4"
+  }
+}
