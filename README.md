@@ -1,6 +1,17 @@
 # FVC
 
-File Version Control (FVC) is a CLI tool designed to give automated version control abilities (similar to Git) to thoes working with binary and media files, where traditional version control is not possible.
+File Version Control (FVC) is a CLI tool designed to give automated version control abilities (similar to Git) to thoes working with binary and media files, where traditional version control is not possible. This package is designed to increase productivity and organization, not to reduce the size of archived files similar to git.
+
+## Future features
+
+* FVC Ignore
+  * Ability to exclude files from version control system by listing in a ```.fvcignore``` file.
+
+* GUI Interface
+  * A small application to view local archives and graphically interact with FVC features.
+
+* Branching
+  * Ability to switch between file branches (Debating weather it is necessary as a merge is not possible)
 
 ## How to set up
 
@@ -9,19 +20,19 @@ File Version Control (FVC) is a CLI tool designed to give automated version cont
 2. Install dependencies
 
     ```bash
-        npm install
+    npm install
     ```
 
 3. Like application to CLI
 
     ```bash
-        npm link
+    npm link
     ```
 
 4. Run application
 
     ```bash
-        fvc
+    fvc
     ```
 
 ## List of commands
@@ -51,3 +62,5 @@ File Version Control (FVC) is a CLI tool designed to give automated version cont
 * destroy (Implimented)
   * Example: ```fvc destroy```
   * Description: Destroy existing archive.
+
+## Created by Jack Woodrow for Jasmon Dyer ❤
