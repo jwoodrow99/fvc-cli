@@ -8,9 +8,7 @@ const helper = require('../helper');
 function main(){
     let logFile = helper.readLog();
 
-    let keys = Object.keys(logFile.logs).sort((a, b) => {
-        return b - a;
-    });
+    let keys = Object.keys(logFile.logs).sort();
 
     console.log(boxen(`${kleur.bold().green(`Project Information`)}\n${kleur.green(`Project: ${kleur.yellow(logFile.project)}`)}\n${kleur.green(`Author: ${kleur.yellow(logFile.author)}`)}\n${kleur.green(`Date Created: ${kleur.yellow(helper.dateToReadable(logFile.created_at))}`)}`, {padding: 1}));
 

@@ -45,30 +45,62 @@ function writeLog(logObj){
     fs.writeFileSync(`${currentDir()}/.fvc/log.json`, JSON.stringify(logObj));
 }
 
-// function getAllFiles(dirPath, arrayOfFiles) {
+function getAllFiles(dirPath = currentDir(), arrayOfFiles) {
 
-//     files = fs.readdirSync(dirPath);
-//     arrayOfFiles = arrayOfFiles || [];
+    files = fs.readdirSync(dirPath);
+    arrayOfFiles = arrayOfFiles || [];
 
-//     files.forEach((file) => {
-//         if (file != '.fvc') {
-//             if (fs.statSync(`${dirPath}/${file}`).isDirectory()) {
-//                 arrayOfFiles = getAllFiles(`${dirPath}/${file}`, arrayOfFiles);
-//             } else {
-//                 arrayOfFiles.push(`${file}`);
-//             }
-//         }
-//     })
+    files.forEach((file) => {
+        if (fs.statSync(`${dirPath}/${file}`).isDirectory()) {
+            arrayOfFiles = getAllFiles(`${dirPath}/${file}`, arrayOfFiles);
+        } else {
+            arrayOfFiles.push(`${dirPath}/${file}`);
+        }
+    });
 
-//     return arrayOfFiles;
-// }
+    return arrayOfFiles;
+}
 
-// function getIgnoreFiles(){
-//     let ignore = fs.readFileSync(`${helper.currentDir()}/.fvcignore` , 'utf8')
-//     let ignoreList = ignore.split('\n');
-//     ignoreList.push('.fvc');
-//     return ignoreList;
-// }
+function getAllNonIgnoredFiles(dirPath = currentDir(), arrayOfFiles) {
+
+    let ignoreFiles = getIgnoreFiles(dirPath);
+
+    let files = fs.readdirSync(dirPath);
+    arrayOfFiles = arrayOfFiles || [];
+
+    files.forEach((file) => {
+        if(!ignoreFiles.includes(`${dirPath}/${file}`)){
+            if (fs.statSync(`${dirPath}/${file}`).isDirectory()) {
+                arrayOfFiles = getAllFiles(`${dirPath}/${file}`, arrayOfFiles);
+            } else {
+                arrayOfFiles.push(`${dirPath}/${file}`);
+            }
+        }
+    });
+
+    return arrayOfFiles;
+}
+
+function getIgnoreFiles(path = currentDir()){
+    if(fs.existsSync(`${path}/.fvcignore`)){
+        let ignore = fs.readFileSync(`${path}/.fvcignore` , 'utf8');
+        let ignoreListRaw = ignore.split('\n');
+
+        let ignoreList = [];
+
+        ignoreListRaw.forEach((i) => {
+            ignoreList.push(`${path}/${i}`);
+        });
+
+        ignoreList.push(`${path}/.fvc`);
+
+        return ignoreList;
+    } else {
+        let ignoreList = [];
+        ignoreList.push(`${path}/.fvc`);
+        return ignoreList;
+    }
+}
 
 module.exports = {
     logFileTemplate,
@@ -79,6 +111,7 @@ module.exports = {
     dateToReadable,
     readLog,
     writeLog,
-    // getAllFiles,
-    // getIgnoreFiles
+    getAllFiles,
+    getAllNonIgnoredFiles,
+    getIgnoreFiles
 };

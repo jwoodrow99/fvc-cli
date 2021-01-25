@@ -5,7 +5,7 @@ const boxen = require('boxen');
 const ora = require('ora');
 const helper = require('../helper');
 
-function main(){
+function main(archive_id){
 
     inquirer.prompt([
         {
@@ -15,7 +15,11 @@ function main(){
         }
     ]).then(answers => {
         if(answers.delete === true){
-            fs.rmdirSync(helper.archiveDir(), {recursive: true});
+            if (archive_id === undefined){
+                 fs.rmdirSync(helper.archiveDir(), {recursive: true});
+            } else {
+                 fs.rmdirSync(`${helper.archiveDir()}/${archive_id}`, {recursive: true});
+            }
             console.log(kleur.green(`FVC archive was removed`));
         } else {
             console.log(kleur.yellow(`FVC archive was NOT removed`));

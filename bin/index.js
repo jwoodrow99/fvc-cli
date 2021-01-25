@@ -7,7 +7,6 @@ const destroy = require('./commands/destroy.js');
 const list = require('./commands/list.js');
 const info = require('./commands/info.js');
 const restore = require('./commands/restore.js');
-// const test = require('./commands/test.js');
 
 const program = require('commander');
 
@@ -26,10 +25,10 @@ program
     })
 
 program
-    .command(`destroy`)
+    .command(`destroy [archive_id]`)
     .description(`Destroy FVC archive in current directory.`)
-    .action(() => {
-        destroy.main();
+    .action((archive_id) => {
+        destroy.main(archive_id);
     })
 
 program
@@ -48,16 +47,10 @@ program
 
 program
     .command(`restore <archive_id>`)
-    .description(`Restore working directory to a past archive.`)
-    .action((archive_id) => {
-        restore.main(archive_id);
+    .description(`Overwrites working files with archived files.`)
+    .option('-f, --full', 'Completely mirrors working directory to archive.')
+    .action((archive_id, args) => {
+        restore.main(archive_id, args);
     })
-
-// program
-//     .command(`test`)
-//     .description(`Restore working directory to a past archive.`)
-//     .action(() => {
-//         test.main();
-//     })
 
 program.parse(process.argv);

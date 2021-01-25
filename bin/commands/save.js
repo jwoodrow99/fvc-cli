@@ -10,13 +10,19 @@ function main(message){
     let createDate = helper.currentDate();
     let readableCreateDate = helper.dateToReadable(createDate);
 
-    let contents = fs.readdirSync(helper.currentDir());
-    contents.forEach(i => {
-        if(i != '.fvc'){
-            fs.copySync(`${helper.currentDir()}/${i}`, `${helper.archiveDir()}/${createDate}/${i}`);
-        }
+    // remove prefix of files cleard for archiving
+    let removingFilesRaw = helper.getAllNonIgnoredFiles();
+    let removingFiles = [];
+    removingFilesRaw.forEach((i, index, arr) => {
+       removingFiles.push(i.replace(`${helper.currentDir()}/`, ''));
+    });
+    
+    // Copy files to archive
+    removingFiles.forEach(i => {
+        fs.copySync(`${helper.currentDir()}/${i}`, `${helper.archiveDir()}/${createDate}/${i}`);
     });
 
+    // Add log file entry
     logFile.logs[createDate] = {
         created_at: createDate,
         message: message
@@ -26,7 +32,7 @@ function main(message){
 
     console.log(kleur.bold().green(`Current working state archived`));
     console.log(kleur.green(`Archive ID: ${kleur.yellow(createDate)}`));
-    console.log(kleur.green(`Careated At: ${kleur.yellow(helper.dateToReadable(createDate))}`));
+    console.log(kleur.green(`Careated At: ${kleur.yellow(readableCreateDate)}`));
     console.log(kleur.green(`Message: ${kleur.yellow(message)}\n`));
 }
 

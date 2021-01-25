@@ -5,9 +5,14 @@ const boxen = require('boxen');
 const ora = require('ora');
 const helper = require('../helper');
 
-function main(archive_id){
+function main(archive_id, args){
 
-    console.log(kleur.red(`By restoring an old archive, any unarchived data will be lost!`));
+    if(args.full){
+        console.log(kleur.red(`By FULL restoring an old archive, all working files will be removed.`));
+    } else {
+        console.log(kleur.red(`By restoring an old archive, all restored files will be overwritten.`));
+    }
+    
     console.log(kleur.red(`It is reccomended to make an archive before resoring a previous archive!`));
 
     inquirer.prompt([
@@ -22,20 +27,20 @@ function main(archive_id){
 
         if(answers.restore === true){
 
-            // Remove contents of working dir
-            let workingContents = fs.readdirSync(helper.currentDir());
-            workingContents.forEach(i => {
-                if(i != '.fvc'){
-                    fs.removeSync(`${helper.currentDir()}/${i}`);
-                }
-            });
+            if(args.full){
+                // Remove contents of working dir
+                let workingContents = fs.readdirSync(helper.currentDir());
+                workingContents.forEach(i => {
+                    if (i != '.fvc'){
+                        fs.removeSync(`${helper.currentDir()}/${i}`);
+                    }
+                });
+            }
 
             // Copy files from archive to working dir
             let archiveContents = fs.readdirSync(`${helper.archiveDir()}/${archive_id}`);
             archiveContents.forEach(i => {
-                if(i != '.fvc'){
-                    fs.copySync(`${helper.archiveDir()}/${archive_id}/${i}`, `${helper.currentDir()}/${i}`);
-                }
+                fs.copySync(`${helper.archiveDir()}/${archive_id}/${i}`, `${helper.currentDir()}/${i}`);
             });
 
             console.log(kleur.bold().green(`Working directory restored to previous archive`));

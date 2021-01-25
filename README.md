@@ -4,9 +4,6 @@ File Version Control (FVC) is a CLI tool designed to give automated version cont
 
 ## Future features
 
-* FVC Ignore
-  * Ability to exclude files from version control system by listing in a ```.fvcignore``` file.
-
 * GUI Interface
   * A small application to view local archives and graphically interact with FVC features.
 
@@ -39,9 +36,16 @@ File Version Control (FVC) is a CLI tool designed to give automated version cont
     fvc
     ```
 
+## List of features
+
+* FVC Ignore
+  * You can creat a ```.fvcignore``` file in the root of the project and specify any files you wish to exclude from the archive.
+
 ## List of commands
 
-### Notes: In example <> refers to required peramater & [] refers to optional peramaters.
+### Notes: In example <> refers to required peramater & [] refers to optional peramaters
+
+### Notes: Use ```fvc --help``` for console hlep and list of commands and flags
 
 * init (Implimented)
   * Example: ```fvc init```
@@ -61,10 +65,12 @@ File Version Control (FVC) is a CLI tool designed to give automated version cont
 
 * restore (Implimented)
   * Example: ```fvc restore <archive_id>```
-  * Description: Restore working directory to previous archive.
+  * Description: Overwrite files in working directory with archived.
+  * Flags
+    * -f, --full: Removes all files in working directory and copies archived.
 
 * destroy (Implimented)
-  * Example: ```fvc destroy```
-  * Description: Destroy existing archive.
+  * Example: ```fvc destroy [archive_id]```
+  * Description: Destroy FVC archive, or if archive_id is passed, destroy a single archive.
 
 ## Created by Jack Woodrow for Jasmin Dyer ❤
