@@ -19,7 +19,7 @@ function main(archive_id){
             if (archive_id === undefined){
                  fs.rmdirSync(helper.archiveDir(), {recursive: true});
             } else {
-                 fs.rmdirSync(path.normalize(`${helper.archiveDir()}/${archive_id}`), {recursive: true});
+                 fs.rmdirSync(path.join(helper.archiveDir(), archive_id), {recursive: true});
             }
             console.log(kleur.green(`FVC archive was removed`));
         } else {

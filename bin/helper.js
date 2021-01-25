@@ -15,17 +15,23 @@ function logFileTemplate(){
 }
 
 function currentDir(){
-    return path.normalize(process.cwd());
+    return process.cwd();
 }
 
 function currentFolder(){
-    let currentDir = path.normalize(process.cwd());
-    let folderPathArr = currentDir.split(path.normalize('/'));
+    let currentDir = process.cwd();
+    let folderPathArr = [];
+    if (process.platform === "win32"){
+        folderPathArr = currentDir.split('\\');
+    } else {
+        folderPathArr = currentDir.split('/');
+    }
+    
     return folderPathArr[folderPathArr.length - 1];
 }
 
 function archiveDir(){
-    return path.normalize(`${process.cwd()}/.fvc`);
+    return path.join(process.cwd(), '.fvc');
 }
 
 function currentDate(){
@@ -33,29 +39,30 @@ function currentDate(){
 }
 
 function dateToReadable(date){
+    date = Number(date);
     let newDate = new Date(date);
     return `${newDate.toLocaleDateString()} ${newDate.toLocaleTimeString()}`;
 }
 
 function readLog(){
-    let logFileRaw = fs.readFileSync(path.normalize(`${currentDir()}/.fvc/log.json`));
+    let logFileRaw = fs.readFileSync(path.join(currentDir(), '.fvc', 'log.json'));
     return JSON.parse(logFileRaw);
 }
 
 function writeLog(logObj){
-    fs.writeFileSync(path.normalize(`${currentDir()}/.fvc/log.json`), JSON.stringify(logObj));
+    fs.writeFileSync(path.join(currentDir(), '.fvc', 'log.json'), JSON.stringify(logObj));
 }
 
 function getAllFiles(dirPath = currentDir(), arrayOfFiles) {
 
-    files = fs.readdirSync(path.normalize(dirPath));
+    files = fs.readdirSync(dirPath);
     arrayOfFiles = arrayOfFiles || [];
 
     files.forEach((file) => {
-        if (fs.statSync(path.normalize(`${dirPath}/${file}`)).isDirectory()) {
-            arrayOfFiles = getAllFiles(path.normalize(`${dirPath}/${file}`), arrayOfFiles);
+        if (fs.statSync(path.join(dirPath, file)).isDirectory()) {
+            arrayOfFiles = getAllFiles(path.join(dirPath, file), arrayOfFiles);
         } else {
-            arrayOfFiles.push(path.normalize(`${dirPath}/${file}`));
+            arrayOfFiles.push(path.join(dirPath, file));
         }
     });
 
@@ -64,17 +71,17 @@ function getAllFiles(dirPath = currentDir(), arrayOfFiles) {
 
 function getAllNonIgnoredFiles(dirPath = currentDir(), arrayOfFiles) {
 
-    let ignoreFiles = getIgnoreFiles(path.normalize(dirPath));
+    let ignoreFiles = getIgnoreFiles(dirPath);
 
-    let files = fs.readdirSync(path.normalize(dirPath));
+    let files = fs.readdirSync(dirPath);
     arrayOfFiles = arrayOfFiles || [];
 
     files.forEach((file) => {
-        if(!ignoreFiles.includes(path.normalize(`${dirPath}/${file}`))){
-            if (fs.statSync(path.normalize(`${dirPath}/${file}`)).isDirectory()) {
-                arrayOfFiles = getAllFiles(path.normalize(`${dirPath}/${file}`), arrayOfFiles);
+        if(!ignoreFiles.includes(path.join(dirPath, file))){
+            if (fs.statSync(path.join(dirPath, file)).isDirectory()) {
+                arrayOfFiles = getAllFiles(path.join(dirPath, file), arrayOfFiles);
             } else {
-                arrayOfFiles.push(path.normalize(`${dirPath}/${file}`));
+                arrayOfFiles.push(path.join(dirPath, file));
             }
         }
     });
@@ -82,23 +89,23 @@ function getAllNonIgnoredFiles(dirPath = currentDir(), arrayOfFiles) {
     return arrayOfFiles;
 }
 
-function getIgnoreFiles(path = currentDir()){
-    if(fs.existsSync(path.normalize(`${path}/.fvcignore`))){
-        let ignore = fs.readFileSync(path.normalize(`${path}/.fvcignore`), 'utf8');
+function getIgnoreFiles(dirPath = currentDir()){
+    if(fs.existsSync(path.join(dirPath, '.fvcignore'))){
+        let ignore = fs.readFileSync(path.join(dirPath, '.fvcignore'), 'utf8');
         let ignoreListRaw = ignore.split('\n');
 
         let ignoreList = [];
 
         ignoreListRaw.forEach((i) => {
-            ignoreList.push(path.normalize(`${path}/${i}`));
+            ignoreList.push(path.join(dirPath, i));
         });
 
-        ignoreList.push(path.normalize(`${path}/.fvc`));
+        ignoreList.push(path.join(dirPath, '.fvc'));
 
         return ignoreList;
     } else {
         let ignoreList = [];
-        ignoreList.push(path.normalize(`${path}/.fvc`));
+        ignoreList.push(path.join(dirPath, '.fvc'));
         return ignoreList;
     }
 }

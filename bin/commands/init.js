@@ -37,7 +37,7 @@ function main(){
 
             // If archive already exists
             console.log(kleur.red(`Project is already initalized in directory`));
-            console.log(kleur.yellow(`Run ${kleur.green('fvc remove')} to remove current FVC archive`));
+            console.log(kleur.yellow(`Run ${kleur.green('fvc destroy')} to remove current FVC archive`));
 
         } else {
 

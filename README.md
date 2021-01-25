@@ -1,6 +1,6 @@
 # FVC
 
-File Version Control (FVC) is a CLI tool designed to give automated version control abilities (similar to Git) to thoes working with binary and media files, where traditional version control is not possible. This package is designed to increase productivity and organization, not to reduce the size of archived files similar to git.
+File Version Control (FVC) is a CLI tool designed to give automated version control abilities (similar to Git) to those working with binary and media files, where traditional version control is not possible. This package is designed to increase productivity and organization, not to reduce the size of archived files similar to git.
 
 ## Future features
 

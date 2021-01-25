@@ -18,7 +18,7 @@ function main(){
 
     keys.forEach(i => {
         console.log(kleur.green(`Archive ID: ${kleur.yellow(i)}`));
-        console.log(kleur.green(`Careated At: ${kleur.yellow(helper.dateToReadable(logFile.logs[i].created_at))}`));
+        console.log(kleur.green(`Careated At: ${kleur.yellow(helper.dateToReadable(Number(logFile.logs[i].created_at)))}`));
         console.log(kleur.green(`Message: ${kleur.yellow(logFile.logs[i].message)}\n`));
     });
 }

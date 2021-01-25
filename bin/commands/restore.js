@@ -33,15 +33,15 @@ function main(archive_id, args){
                 let workingContents = fs.readdirSync(helper.currentDir());
                 workingContents.forEach(i => {
                     if (i != '.fvc'){
-                        fs.removeSync(path.normalize(`${helper.currentDir()}/${i}`));
+                        fs.removeSync(path.join(helper.currentDir(), i));
                     }
                 });
             }
 
             // Copy files from archive to working dir
-            let archiveContents = fs.readdirSync(path.normalize(`${helper.archiveDir()}/${archive_id}`));
+            let archiveContents = fs.readdirSync(path.join(helper.archiveDir(), archive_id));
             archiveContents.forEach(i => {
-                fs.copySync(path.normalize(`${helper.archiveDir()}/${archive_id}/${i}`, `${helper.currentDir()}/${i}`));
+                fs.copySync(path.join(helper.archiveDir(), archive_id, i), path.join(helper.currentDir(), i));
             });
 
             console.log(kleur.bold().green(`Working directory restored to previous archive`));

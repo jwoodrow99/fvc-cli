@@ -14,13 +14,19 @@ function main(message){
     // remove prefix of files cleard for archiving
     let removingFilesRaw = helper.getAllNonIgnoredFiles();
     let removingFiles = [];
-    removingFilesRaw.forEach((i, index, arr) => {
-       removingFiles.push(i.replace(path.normalize(`${helper.currentDir()}/`), ''));
-    });
+    if (process.platform === "win32"){
+        removingFilesRaw.forEach((i, index, arr) => {
+            removingFiles.push(i.replace(path.join(helper.currentDir(), '\\'), ''));
+        });
+    } else {
+        removingFilesRaw.forEach((i, index, arr) => {
+            removingFiles.push(i.replace(path.join(helper.currentDir(), '/'), ''));
+        });
+    }
     
     // Copy files to archive
     removingFiles.forEach(i => {
-        fs.copySync(path.normalize(`${helper.currentDir()}/${i}`, `${helper.archiveDir()}/${createDate}/${i}`));
+        fs.copySync(path.join(helper.currentDir(), i), path.join(helper.archiveDir(), String(createDate), i));
     });
 
     // Add log file entry
