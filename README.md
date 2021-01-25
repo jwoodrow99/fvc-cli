@@ -10,12 +10,22 @@ File Version Control (FVC) is a CLI tool designed to give automated version cont
 * Branching
   * Ability to switch between file branches (Debating weather it is necessary as a merge is not possible)
 
+## Updating
+
+* Simply go to the folder where you cloned the repo initially and run the following commands.
+
+    ```bash
+    git pull
+    npm install
+    ```
+
 ## How to set up
 
 1. Clone the repo
 
     ```bash
     git clone https://github.com/jwoodrow99/fvc.git
+    cd fvc
     ```
 
 2. Install dependencies
@@ -30,7 +40,7 @@ File Version Control (FVC) is a CLI tool designed to give automated version cont
     npm link
     ```
 
-4. Run application
+4. Run application (Known issues on windows "command not found" [Solution](https://stackoverflow.com/questions/27864040/fixing-npm-path-in-windows-8-and-10))
 
     ```bash
     fvc
