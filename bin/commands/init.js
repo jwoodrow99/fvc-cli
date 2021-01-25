@@ -1,26 +1,20 @@
 const fs = require("fs-extra");
 const inquirer = require('inquirer');
 const kleur = require('kleur');
+const boxen = require('boxen');
+const ora = require('ora');
+const helper = require('../helper');
 
 function main(){
 
-    let currentDir = process.cwd();
-    let folderPathArr = currentDir.split('/');
-    let folderName = folderPathArr[folderPathArr.length - 1]
-
-    let log_file = {
-        project: null,
-        author: null,
-        created_at: null,
-        logs: {},
-    }
+    let logFileInit = helper.logFileTemplate();
 
     inquirer.prompt([
         {
             type: 'input',
             name: 'project',
             message: 'Project Name',
-            default: String(folderName),
+            default: helper.currentFolder(),
         },
         {
             type: 'input',
@@ -30,35 +24,36 @@ function main(){
         }
     ]).then(answers => {
 
+        let createDate = helper.currentDate();
+        let readableCreateDate = helper.dateToReadable(createDate);
+
         // Save inputs to log file
-        log_file.project = answers.project;
-        log_file.author = answers.author;
-        log_file.created_at = Date.now();
+        logFileInit.project = answers.project;
+        logFileInit.author = answers.author;
+        logFileInit.created_at = createDate;
 
-        let created_at = new Date(log_file.created_at);
-        let dir = currentDir + '/.fvc';
+        if (fs.existsSync(helper.archiveDir())){
 
-        if (fs.existsSync(dir)){
-
-            // Output
+            // If archive already exists
             console.log(kleur.red(`Project is already initalized in directory`));
             console.log(kleur.yellow(`Run ${kleur.green('fvc remove')} to remove current FVC archive`));
 
         } else {
 
             // Create archive folders
-            fs.mkdirSync(dir);
-            fs.writeFileSync(dir + '/log.json', JSON.stringify(log_file));
+            fs.mkdirSync(helper.archiveDir());
+            // fs.writeFile(`${helper.currentDir()}/.fvcignore`)
+            helper.writeLog(logFileInit);
 
             // Output
-            console.log(`Project initalized`);
-            console.log(kleur.green(`Project: ${kleur.yellow(log_file.project)}`));
-            console.log(kleur.green(`Author: ${kleur.yellow(log_file.author)}`));
-            console.log(kleur.green(`Date Created: ${kleur.yellow(created_at.toLocaleDateString())} ${kleur.yellow(created_at.toLocaleTimeString())}`));
+            console.log(kleur.bold().green(`FVC Project Archive Initalized`));
+            console.log(kleur.green(`Project: ${kleur.yellow(logFileInit.project)}`));
+            console.log(kleur.green(`Author: ${kleur.yellow(logFileInit.author)}`));
+            console.log(kleur.green(`Date Created: ${kleur.yellow(readableCreateDate)}`));
         }
     });
 }
 
 module.exports = {
-    main,
+    main
 };

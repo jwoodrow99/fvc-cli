@@ -1,32 +1,33 @@
 const fs = require("fs-extra");
 const inquirer = require('inquirer');
 const kleur = require('kleur');
-
+const boxen = require('boxen');
+const ora = require('ora');
+const helper = require('../helper');
 
 function main(message){
+    let logFile = helper.readLog();
+    let createDate = helper.currentDate();
+    let readableCreateDate = helper.dateToReadable(createDate);
 
-    let currentDir = process.cwd();
-    let folderPathArr = currentDir.split('/');
-    let folderName = folderPathArr[folderPathArr.length - 1]
-
-    let logFileRaw = fs.readFileSync(currentDir + '/.fvc/log.json');
-    let log_file = JSON.parse(logFileRaw);
-
-    let created_at = Date.now();
-
-    let contents = fs.readdirSync(currentDir);
+    let contents = fs.readdirSync(helper.currentDir());
     contents.forEach(i => {
         if(i != '.fvc'){
-            fs.copySync(`${currentDir}/${i}`, `${currentDir}/.fvc/${created_at}/${i}`);
+            fs.copySync(`${helper.currentDir()}/${i}`, `${helper.archiveDir()}/${createDate}/${i}`);
         }
     });
 
-    log_file.logs[created_at] = {
-        created_at: created_at,
+    logFile.logs[createDate] = {
+        created_at: createDate,
         message: message
     }
 
-    fs.writeFileSync(`${currentDir}/.fvc/log.json`, JSON.stringify(log_file));
+    helper.writeLog(logFile);
+
+    console.log(kleur.bold().green(`Current working state archived`));
+    console.log(kleur.green(`Archive ID: ${kleur.yellow(createDate)}`));
+    console.log(kleur.green(`Careated At: ${kleur.yellow(helper.dateToReadable(createDate))}`));
+    console.log(kleur.green(`Message: ${kleur.yellow(message)}\n`));
 }
 
 module.exports = {
