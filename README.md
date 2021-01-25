@@ -63,4 +63,4 @@ File Version Control (FVC) is a CLI tool designed to give automated version cont
   * Example: ```fvc destroy```
   * Description: Destroy existing archive.
 
-## Created by Jack Woodrow for Jasmon Dyer ❤
+## Created by Jack Woodrow for Jasmin Dyer ❤
