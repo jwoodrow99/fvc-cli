@@ -17,6 +17,10 @@ File Version Control (FVC) is a CLI tool designed to give automated version cont
 
 1. Clone the repo
 
+    ```bash
+    git clone https://github.com/jwoodrow99/fvc.git
+    ```
+
 2. Install dependencies
 
     ```bash
