@@ -11,23 +11,29 @@ const app = express();
 
 function main(port){
 
+    app.use('/public', express.static(path.join(__dirname, 'public')));
+
     app.get('/', (req, res) => {
         index(req, res);
     });
 
-    app.get('/save',  (req, res) => {
+    app.get('/json', (req, res) => {
+        json(req, res);
+    });
+
+    app.post('/save',  (req, res) => {
         save(req, res);
     });
 
-    app.get('/restore', (req, res) => {
+    app.post('/restore', (req, res) => {
         restore(req, res);
     });
 
-    app.get('/init', (req, res) => {
+    app.post('/init', (req, res) => {
         init(req, res);
     });
 
-    app.get('/destroy', (req, res) => {
+    app.post('/destroy', (req, res) => {
         destroy(req, res);
     });
 
@@ -37,7 +43,11 @@ function main(port){
 }
 
 function index(req, res){
-    res.send('FVC Archive Interface');
+    res.sendFile(path.join(__dirname, 'views', 'index.html'));
+}
+
+function json(req, res){
+    res.json(helper.readLog());
 }
 
 function save(req, res){
