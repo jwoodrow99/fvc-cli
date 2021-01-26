@@ -4,9 +4,6 @@ File Version Control (FVC) is a CLI tool designed to give automated version cont
 
 ## Future features
 
-* GUI Interface
-  * A small application to view local archives and graphically interact with FVC features.
-
 * Branching
   * Ability to switch between file branches (Debating weather it is necessary as a merge is not possible)
 
@@ -48,8 +45,14 @@ File Version Control (FVC) is a CLI tool designed to give automated version cont
 
 ## List of features
 
+* FVC Archive
+  * Archive the working directory and basic version control tools.
+
 * FVC Ignore
   * You can creat a ```.fvcignore``` file in the root of the project and specify any files you wish to exclude from the archive.
+
+* FVC User Interface
+  * In adition to the CLI tool there is a GUI interface which can be launched from the working directory using ```fvc gui```.
 
 ## List of commands
 
@@ -82,6 +85,10 @@ File Version Control (FVC) is a CLI tool designed to give automated version cont
 * destroy
   * Example: ```fvc destroy [archive_id]```
   * Description: Destroy FVC archive, or if archive_id is passed, destroy a single archive.
+
+* gui
+  * Example: ```fvc gui [port]```
+  * Description: Opens the GUI interface in working directory.
 
 ## Windows Command not found Issue ([More Info](https://stackoverflow.com/questions/27864040/fixing-npm-path-in-windows-8-and-10))
 
