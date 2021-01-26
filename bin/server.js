@@ -72,7 +72,7 @@ function restore(req, res){
 }
 
 function destroy(req, res){
-    destroyCMD(req.body.archive_id, true);
+    destroyCMD.record(req.body.archive_id);
     res.status(200).json(helper.readLog());
 }
 
