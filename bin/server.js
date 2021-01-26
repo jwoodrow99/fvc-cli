@@ -1,10 +1,13 @@
-const fs = require("fs-extra");
 const path = require('path');
-const inquirer = require('inquirer');
 const kleur = require('kleur');
-const boxen = require('boxen');
-const ora = require('ora');
-const helper = require('../helper');
+const helper = require('./helper');
+const bodyParser = require('body-parser');
+const open = require('open');
+
+// Command Files
+const saveCMD = require('./app/save.js');
+const restoreCMD = require('./app/restore.js');
+const destroyCMD = require('./app/destroy.js');
 
 const express = require('express');
 const app = express();
@@ -12,6 +15,7 @@ const app = express();
 function main(port){
 
     app.use('/public', express.static(path.join(__dirname, 'public')));
+    app.use(bodyParser.json());
 
     app.get('/', (req, res) => {
         index(req, res);
@@ -40,6 +44,8 @@ function main(port){
     app.listen(port || 3800);
 
     console.log(kleur.green(`Starting FVC GUI server on. `) + kleur.yellow(`localhost:${port || 3800}`));
+
+    open(`http://localhost:${port || 3800}`);
 }
 
 function index(req, res){
@@ -51,22 +57,26 @@ function json(req, res){
 }
 
 function save(req, res){
-    res.send('SAVE');
+    saveCMD(req.body.message);
+    res.status(200).json(helper.readLog());
 }
 
 function restore(req, res){
-    res.send('RESTORE');
-}
+    if(req.body.full){
+        restoreCMD.full(req.body.archive_id);
+    } else {
+        restoreCMD.restore(req.body.archive_id);
+    }
 
-function init(req, res){
-    res.send('INIT');
+    res.status(200).json(helper.readLog());
 }
 
 function destroy(req, res){
-    res.send('DESTROY');
+    destroyCMD(req.body.archive_id, true);
+    res.status(200).json(helper.readLog());
 }
 
 module.exports = {
-    main,
+    main
 };
 
