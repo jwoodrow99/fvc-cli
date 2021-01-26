@@ -3,18 +3,27 @@ const path = require('path');
 const kleur = require('kleur');
 const helper = require('../helper');
 
-module.exports = (archive_id, confirm) => {
-    if(confirm === true){
-        if (archive_id === undefined){
-                fs.rmdirSync(helper.archiveDir(), {recursive: true});
-        } else {
-                fs.rmdirSync(path.join(helper.archiveDir(), archive_id), {recursive: true});
-                let logFile = helper.readLog();
-                delete logFile.logs[archive_id];
-                helper.writeLog(logFile);
-        }
-        console.log(kleur.green(`FVC archive was removed`));
-    } else {
-        console.log(kleur.yellow(`FVC archive was NOT removed`));
-    }
+function archive(){
+    fs.rmdirSync(helper.archiveDir(), {recursive: true});
+    console.log(kleur.green(`FVC archive was removed`));
 }
+
+function record(archive_id){
+    let logFile = helper.readLog();
+    let record = logFile.logs[archive_id]
+
+    delete logFile.logs[archive_id];
+    helper.writeLog(logFile);
+
+    fs.rmdirSync(path.join(helper.archiveDir(), archive_id), {recursive: true});
+
+    console.log(kleur.bold().green(`FVC archive record was removed`));
+    console.log(kleur.green(`Archive ID: ${kleur.yellow(record.created_at)}`));
+    console.log(kleur.green(`Careated At: ${kleur.yellow(helper.dateToReadable(Number(record.created_at)))}`));
+    console.log(kleur.green(`Message: ${kleur.yellow(record.message)}\n`));
+}
+
+module.exports = {
+    archive,
+    record,
+};

@@ -7,6 +7,12 @@ File Version Control (FVC) is a CLI tool designed to give automated version cont
 * Branching
   * Ability to switch between file branches (Debating weather it is necessary as a merge is not possible)
 
+* Timeline
+  * Interactive timeline describing each archive record.
+
+* Heat map
+  * GitHub style heat map, showing how often you make saves.
+
 ## Updating
 
 * Simply go to the folder where you cloned the repo initially and run the following commands.
@@ -66,7 +72,7 @@ File Version Control (FVC) is a CLI tool designed to give automated version cont
 
 * save
   * Example: ```fvc save <message>```
-  * Description: Saves a new log in your archive.
+  * Description: Saves a new log in your archive. Message must be in quotations.
 
 * info
   * Example: ```fvc info```
@@ -77,14 +83,14 @@ File Version Control (FVC) is a CLI tool designed to give automated version cont
   * Description: List archives.
 
 * restore
-  * Example: ```fvc restore <archive_id>```
+  * Example: ```fvc restore <record_id>```
   * Description: Overwrite files in working directory with archived.
   * Flags
     * -f, --full: Removes all files in working directory and copies archived.
 
 * destroy
-  * Example: ```fvc destroy [archive_id]```
-  * Description: Destroy FVC archive, or if archive_id is passed, destroy a single archive.
+  * Example: ```fvc destroy [record_id]```
+  * Description: Destroy FVC archive, or if record_id is passed, destroy a single archive.
 
 * gui
   * Example: ```fvc gui [port]```
@@ -94,7 +100,7 @@ File Version Control (FVC) is a CLI tool designed to give automated version cont
 
 This is a common issue with Node and NPM (not FVC). We need to update the path variable to include the Node and NPM binary files so they are globally accessable.
 
-1. Use the global Search Charm to search "Environment Variables"
+1. Use the global Search to search "Environment Variables"
 
 2. Click "Edit system environment variables"
 
