@@ -72,7 +72,7 @@ File Version Control (FVC) is a CLI tool designed to give automated version cont
 
 * save
   * Example: ```fvc save <message>```
-  * Description: Saves a new log in your archive.
+  * Description: Saves a new log in your archive. Message must be in quotations.
 
 * info
   * Example: ```fvc info```
@@ -83,14 +83,14 @@ File Version Control (FVC) is a CLI tool designed to give automated version cont
   * Description: List archives.
 
 * restore
-  * Example: ```fvc restore <archive_id>```
+  * Example: ```fvc restore <record_id>```
   * Description: Overwrite files in working directory with archived.
   * Flags
     * -f, --full: Removes all files in working directory and copies archived.
 
 * destroy
-  * Example: ```fvc destroy [archive_id]```
-  * Description: Destroy FVC archive, or if archive_id is passed, destroy a single archive.
+  * Example: ```fvc destroy [record_id]```
+  * Description: Destroy FVC archive, or if record_id is passed, destroy a single archive.
 
 * gui
   * Example: ```fvc gui [port]```
