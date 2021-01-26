@@ -57,7 +57,13 @@ program
                 message: 'Are you sure you want to remove this FVC archive'
             }
         ]).then(answers => {
-            destroy(archive_id, answers.confirm);
+            if(answers.confirm){
+                if (archive_id === undefined){
+                    destroy.archive();
+                } else {
+                    destroy.record(archive_id);
+                }
+            }
         })
     });
 
@@ -101,8 +107,6 @@ program
                 } else {
                     restore.restore(archive_id);
                 }
-            } else {
-                console.log(kleur.red(`FVC archive was not restored`));
             }
         });
     });
