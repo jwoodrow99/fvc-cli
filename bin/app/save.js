@@ -1,12 +1,9 @@
 const fs = require("fs-extra");
 const path = require('path');
-const inquirer = require('inquirer');
 const kleur = require('kleur');
-const boxen = require('boxen');
-const ora = require('ora');
 const helper = require('../helper');
 
-function main(message){
+module.exports =  (message) => {
     let logFile = helper.readLog();
     let createDate = helper.currentDate();
     let readableCreateDate = helper.dateToReadable(createDate);
@@ -42,7 +39,3 @@ function main(message){
     console.log(kleur.green(`Careated At: ${kleur.yellow(readableCreateDate)}`));
     console.log(kleur.green(`Message: ${kleur.yellow(message)}\n`));
 }
-
-module.exports = {
-    main,
-};
