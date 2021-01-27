@@ -24,7 +24,12 @@ File Version Control (FVC) is a CLI tool designed to give automated version cont
 
 ## How to set up
 
-1. Clone the repo
+### Required Software
+
+* [Node.js](https://nodejs.org/en/)
+* [Git](https://git-scm.com/)
+
+1. Clone the repo (Preferably run commands in Git Bash on Windows or Terminal on MacOS \ Linux)
 
     ```bash
     git clone https://github.com/jwoodrow99/fvc.git
