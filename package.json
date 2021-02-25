@@ -1,5 +1,5 @@
 {
-  "name": "fvc",
+  "name": "fvc-cli",
   "bin": "./bin/index.js",
   "version": "1.0.0",
   "description": "File Version Control",
