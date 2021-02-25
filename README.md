@@ -63,42 +63,42 @@ File Version Control (FVC) is a CLI tool designed to give automated version cont
   * You can creat a ```.fvcignore``` file in the root of the project and specify any files you wish to exclude from the archive.
 
 * FVC User Interface
-  * In adition to the CLI tool there is a GUI interface which can be launched from the working directory using ```fvc gui```.
+  * In adition to the CLI tool there is a GUI interface which can be launched from the working directory using ```fvc-cli gui```.
 
 ## List of commands
 
 ### Notes: In example <> refers to required peramater & [] refers to optional peramaters
 
-### Notes: Use ```fvc --help``` for console hlep and list of commands and flags
+### Notes: Use ```fvc-cli --help``` for console hlep and list of commands and flags
 
 * init
-  * Example: ```fvc init```
+  * Example: ```fvc-cli init```
   * Description: Creates a new FVC archive in the project folder.
 
 * save
-  * Example: ```fvc save <message>```
+  * Example: ```fvc-cli save <message>```
   * Description: Saves a new log in your archive. Message must be in quotations.
 
 * info
-  * Example: ```fvc info```
+  * Example: ```fvc-cli info```
   * Description: Displays archive info.
 
 * list
-  * Example: ```fvc list```
+  * Example: ```fvc-cli list```
   * Description: List archives.
 
 * restore
-  * Example: ```fvc restore <record_id>```
+  * Example: ```fvc-cli restore <record_id>```
   * Description: Overwrite files in working directory with archived.
   * Flags
     * -f, --full: Removes all files in working directory and copies archived.
 
 * destroy
-  * Example: ```fvc destroy [record_id]```
+  * Example: ```fvc-cli destroy [record_id]```
   * Description: Destroy FVC archive, or if record_id is passed, destroy a single archive.
 
 * gui
-  * Example: ```fvc gui [port]```
+  * Example: ```fvc-cli gui [port]```
   * Description: Opens the GUI interface in working directory.
 
 ## Windows Command not found Issue ([More Info](https://stackoverflow.com/questions/27864040/fixing-npm-path-in-windows-8-and-10))
